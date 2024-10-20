@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Fetch the folder structure from the server
     function loadFolderStructure() {
-        fetch("http://127.0.0.1:3000/api/folder-structure")
+        fetch("http://chessmemorizer-nvvj2nz0.b4a.run/api/folder-structure")
             .then((response) => response.json())
             .then(renderDirectory)
             .catch((error) =>
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("create-folder").addEventListener("click", () => {
         const folderName = prompt("Enter folder name:");
         if (folderName) {
-            fetch("http://127.0.0.1:3000/api/folder", {
+            fetch("http://chessmemorizer-nvvj2nz0.b4a.run/api/folder", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ folderName }),
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const pgnContent = pgnContentTextarea.value;
 
         if (pgnFileName && selectedFolder && pgnContent) {
-            fetch(`http://127.0.0.1:3000/api/folder/${selectedFolder}/pgn`, {
+            fetch(`http://chessmemorizer-nvvj2nz0.b4a.run/api/folder/${selectedFolder}/pgn`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ pgnFileName, pgnContent }),
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const pgnContent = pgnContentTextarea.value;
 
         fetch(
-            `http://127.0.0.1:3000/api/folder/${activeOpening}/pgn/${activeOpeningLine}`,
+            `http://chessmemorizer-nvvj2nz0.b4a.run/api/folder/${activeOpening}/pgn/${activeOpeningLine}`,
             {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
