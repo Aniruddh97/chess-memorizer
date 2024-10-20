@@ -77,9 +77,9 @@ document.getElementById("pgn").addEventListener("click", function () {
 });
 
 // Toggle sidebar visibility
-// document
-//     .getElementById("toggle-sidebar")
-//     .addEventListener("click", function () {
-//         var sidebar = document.getElementById("sidebar");
-//         sidebar.classList.toggle("collapsed");
-//     });
+document
+    .getElementById("toggle-sidebar")
+    .addEventListener("click", function () {
+        var sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("collapsed");
+    });
