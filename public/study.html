@@ -15,21 +15,58 @@
         <link rel="stylesheet" href="./css/study.css" />
     </head>
     <body>
+        <div id="navbar">
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="memorize.html">Memorize</a></li>
+                    <li><a href="study.html">Study</a></li>
+                </ul>
+            </nav>
+        </div>
         <!-- Main container with the chessboard and sidebar -->
         <button id="toggle-sidebar">Toggle Sidebar</button>
 
         <div id="main-container">
             <div id="controls">
-                <textarea
-                    id="pgn-input"
-                    placeholder="Paste PGN here..."
-                    rows="4"
-                ></textarea>
-                <select id="side-selection">
-                    <option value="white">Play as White</option>
-                    <option value="black">Play as Black</option>
-                </select>
-                <button id="start-game">Start Game</button>
+                <div id="folders">
+                    <label for="opening">Opening :</label>
+                    <select name="opening" id="opening">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+
+                    <label for="opening-line">Line:</label>
+                    <select name="opening-line" id="opening-line">
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+
+                <fieldset>
+                    <legend>Select side:</legend>
+
+                    <div>
+                        <input
+                            type="radio"
+                            id="white-side"
+                            name="side"
+                            value="white"
+                            checked
+                        />
+                        <label for="white-side">White</label>
+                    </div>
+
+                    <div>
+                        <input
+                            type="radio"
+                            id="black-side"
+                            name="side"
+                            value="black"
+                        />
+                        <label for="black-side">Black</label>
+                    </div>
+                </fieldset>
+
+                <button id="revise">Revise</button>
             </div>
 
             <div id="board"></div>
@@ -55,27 +92,40 @@
 
         <div id="status"></div>
 
-		<div id="modal-1" aria-hidden="true" class="modal" data-micromodal-close>
-			<div tabindex="-1" class="modal__overlay" data-micromodal-close>
-				<div role="dialog" aria-modal="true" class="modal__container">
-					<header class="modal__header">
-						<h2 class="modal__title">Message</h2>
-						<button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
-					</header>
-					<main class="modal__content" id="modal-1-content">
-						<p id="modal-error-message">Please paste a valid PGN.</p>
-					</main>
-					<footer class="modal__footer">
-						<button class="modal__btn" data-micromodal-close>OK</button>
-					</footer>
-				</div>
-			</div>
-		</div>
+        <div
+            id="modal-1"
+            aria-hidden="true"
+            class="modal"
+            data-micromodal-close
+        >
+            <div tabindex="-1" class="modal__overlay" data-micromodal-close>
+                <div role="dialog" aria-modal="true" class="modal__container">
+                    <header class="modal__header">
+                        <h2 class="modal__title">Message</h2>
+                        <button
+                            class="modal__close"
+                            aria-label="Close modal"
+                            data-micromodal-close
+                        ></button>
+                    </header>
+                    <main class="modal__content" id="modal-1-content">
+                        <p id="modal-error-message">
+                            Please paste a valid PGN.
+                        </p>
+                    </main>
+                    <footer class="modal__footer">
+                        <button class="modal__btn" data-micromodal-close>
+                            OK
+                        </button>
+                    </footer>
+                </div>
+            </div>
+        </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
-		<script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+        <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
         <script src="./js/study.js"></script>
     </body>
 </html>

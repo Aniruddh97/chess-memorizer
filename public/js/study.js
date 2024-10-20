@@ -18,20 +18,39 @@ let currentMoveIndex = 0;
 let userSide = "white"; // Default to white
 let gameStarted = false;
 
-document.getElementById("start-game").addEventListener("click", () => {
-    const pgnInput = document.getElementById("pgn-input");
-    const sideSelect = document.getElementById("side-selection");
+let openingsData = {};
 
-    // Get PGN from the textarea
-    const pgn = pgnInput.value.trim();
-    if (pgn === "") {
-        alert("Please paste a PGN.");
+fetch("http://127.0.0.1:3000/api/folder-structure")
+    .then((response) => response.json())
+    .then((data) => (openingsData = data))
+    .then(() => setup())
+    .catch((error) => console.error("Error fetching folder structure:", error));
+
+function setup() {
+    if (Object.keys(openingsData).length == 0) {
+        showModal(`no openings available : ${openingsData}`);
+        return;
+    }
+
+    populateOpenings();
+}
+
+function startRevision() {
+    selectedOpening = document.getElementById("opening").value;
+    selectedLine = document.getElementById("opening-line").value;
+
+    const pgn = openingsData[selectedOpening][selectedLine];
+    if (!pgn) {
+        showModal(
+            `line '${selectedLine}' of opening '${selectedOpening}' doesn't exist`
+        );
         return;
     }
 
     studyGame.load_pgn(pgn);
+
     pgnMoves = studyGame.history();
-    userSide = sideSelect.value;
+    userSide = getPlayerSide();
 
     boardConfig["orientation"] = userSide;
 
@@ -47,7 +66,17 @@ document.getElementById("start-game").addEventListener("click", () => {
     }
 
     updateStatus();
-});
+}
+
+function getPlayerSide() {
+    const sides = document.getElementsByName("side");
+
+    for (var i = 0; i < sides.length; i++) {
+        if (sides[i].checked) {
+            return sides[i].value;
+        }
+    }
+}
 
 function onDragStart(source, piece, position, orientation) {
     if (
@@ -92,26 +121,19 @@ function playOpponentMove() {
                 currentMoveIndex++;
             } else {
                 // Show the correct move
-                document.getElementById(
-                    "modal-error-message"
-                ).textContent = `The best move is: ${correctMove}`;
-                MicroModal.show("modal-1");
+                showModal(`The best move is: ${correctMove}`);
 
                 // Reset the board to the last valid position
                 game.undo();
                 board.position(game.fen(), false);
             }
         } else {
-            document.getElementById("modal-error-message").textContent =
-                "line completed!";
-            MicroModal.show("modal-1");
+            showModal("line completed!");
         }
     }
 
     if (currentMoveIndex >= pgnMoves.length) {
-        document.getElementById("modal-error-message").textContent =
-            "line completed!";
-        MicroModal.show("modal-1");
+        showModal("line completed!");
     }
 }
 
@@ -132,6 +154,11 @@ function updateStatus() {
     document.getElementById("pgn").innerText = game.pgn();
 }
 
+function showModal(message) {
+    document.getElementById("modal-error-message").textContent = message;
+    MicroModal.show("modal-1");
+}
+
 // Handle copy to clipboard for FEN and PGN
 document.querySelectorAll(".copyable").forEach((item) => {
     item.addEventListener("click", () => {
@@ -140,3 +167,44 @@ document.querySelectorAll(".copyable").forEach((item) => {
         });
     });
 });
+
+document.getElementById("revise").addEventListener("click", startRevision);
+
+/**
+ * OPENINGS & LINES
+ */
+
+document.getElementById("opening").addEventListener("change", (e) => {
+    const selectedOpening = e.target.value;
+    populatePgnLines(selectedOpening);
+});
+
+function populateOpenings() {
+    const openingSelect = document.getElementById("opening");
+
+    openingSelect.innerHTML = "";
+
+    Object.keys(openingsData).forEach((opening) => {
+        const option = document.createElement("option");
+        option.value = opening;
+        option.textContent = opening;
+        openingSelect.appendChild(option);
+    });
+
+    populatePgnLines(openingSelect.value);
+}
+
+function populatePgnLines(opening) {
+    const pgnSelect = document.getElementById("opening-line");
+
+    const lines = openingsData[opening];
+
+    pgnSelect.innerHTML = "";
+
+    Object.keys(lines).forEach((line) => {
+        const option = document.createElement("option");
+        option.value = line;
+        option.textContent = line;
+        pgnSelect.appendChild(option);
+    });
+}

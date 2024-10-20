@@ -69,10 +69,10 @@ router.post("/folder/:folderName/pgn", (req, res) => {
     });
 });
 
-// Endpoint to rename a PGN file
+// Endpoint to update PGN
 router.put("/folder/:folderName/pgn/:pgnFileName", (req, res) => {
     const { folderName, pgnFileName } = req.params;
-    const { newPgnFileName } = req.body;
+    const { newPgn } = req.body;
 
     const folderStructure = getFolderStructure();
     if (
@@ -82,13 +82,11 @@ router.put("/folder/:folderName/pgn/:pgnFileName", (req, res) => {
         return res.status(404).json({ message: "Folder or PGN not found" });
     }
 
-    const pgnContent = folderStructure[folderName][pgnFileName];
-    delete folderStructure[folderName][pgnFileName];
-    folderStructure[folderName][newPgnFileName] = pgnContent;
+    folderStructure[folderName][pgnFileName] = newPgn;
 
     saveFolderStructure(folderStructure);
     res.status(200).json({
-        message: `PGN "${pgnFileName}" renamed to "${newPgnFileName}"`,
+        message: `PGN "${pgnFileName}" updated`,
     });
 });
 

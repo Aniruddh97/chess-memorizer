@@ -1,6 +1,10 @@
-let localFolderStructure = {}
+let OpeningData = {};
+
+let activeOpening = "";
+let activeOpeningLine = "";
 
 document.addEventListener("DOMContentLoaded", () => {
+    const updatePgnButton = document.getElementById("update-pgn");
     const directoryStructure = document.getElementById("directory-structure");
     const pgnContentTextarea = document.getElementById("pgn-content");
 
@@ -11,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Fetch the folder structure from the server
     function loadFolderStructure() {
-        fetch("/api/folder-structure")
+        fetch("http://127.0.0.1:3000/api/folder-structure")
             .then((response) => response.json())
             .then(renderDirectory)
             .catch((error) =>
@@ -21,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Render the directory structure
     function renderDirectory(folderStructure) {
-		localFolderStructure = folderStructure;
+        OpeningData = folderStructure;
 
         directoryStructure.innerHTML = ""; // Clear existing structure
 
@@ -52,21 +56,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Load PGN into the chessboard
     function loadPgn(folder, pgnFile) {
-		loadFolderStructure()
+        activeOpening = folder;
+        activeOpeningLine = pgnFile;
 
-		const game = new Chess();
-		if (game.load_pgn(localFolderStructure[folder][pgnFile])) {
-			chessboard.position(game.fen());
-		} else {
-			alert("Invalid PGN in file.");
-		}
+        loadFolderStructure();
+
+        const game = new Chess();
+        if (game.load_pgn(OpeningData[folder][pgnFile])) {
+            chessboard.position(game.fen());
+            pgnContentTextarea.value = OpeningData[folder][pgnFile];
+        } else {
+            alert("Invalid PGN in file.");
+        }
     }
 
     // Handle button clicks
     document.getElementById("create-folder").addEventListener("click", () => {
         const folderName = prompt("Enter folder name:");
         if (folderName) {
-            fetch("/api/folder", {
+            fetch("http://127.0.0.1:3000/api/folder", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ folderName }),
@@ -84,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const pgnContent = pgnContentTextarea.value;
 
         if (pgnFileName && selectedFolder && pgnContent) {
-            fetch(`/api/folder/${selectedFolder}/pgn`, {
+            fetch(`http://127.0.0.1:3000/api/folder/${selectedFolder}/pgn`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ pgnFileName, pgnContent }),
@@ -92,6 +100,35 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(() => loadFolderStructure())
                 .catch((error) => console.error("Error adding PGN:", error));
         }
+    });
+
+    function updatePgn() {
+        if (
+            !OpeningData[activeOpening] ||
+            !OpeningData[activeOpening][activeOpeningLine]
+        ) {
+            alert(`first select an opening & line!`);
+            return;
+        }
+
+        const pgnContent = pgnContentTextarea.value;
+
+        fetch(
+            `http://127.0.0.1:3000/api/folder/${activeOpening}/pgn/${activeOpeningLine}`,
+            {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ newPgn: pgnContent }),
+            }
+        )
+            .then(() => loadFolderStructure())
+            .catch((error) => console.error("Error updating PGN:", error));
+    }
+
+    updatePgnButton.addEventListener("click", () => {
+        updatePgn();
+
+        loadPgn(activeOpening, activeOpeningLine); // Load the current PGN
     });
 
     loadFolderStructure(); // Load the folder structure on page load

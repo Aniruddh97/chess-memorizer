@@ -11,6 +11,16 @@
         <link rel="stylesheet" href="./css/memorize.css" />
     </head>
     <body>
+        <div id="navbar">
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="memorize.html">Memorize</a></li>
+                    <li><a href="study.html">Study</a></li>
+                </ul>
+            </nav>
+        </div>
+
         <div class="container">
             <div class="sidebar">
                 <h2>Repertoires</h2>
@@ -24,21 +34,21 @@
             </div>
 
             <div class="main-content">
-				<div id="board" class="chessboard"></div>
-				<div id="pgn-details" class="pgn-info">
-					<h3>PGN Info</h3>
-					<textarea id="pgn-content" rows="10" cols="50"></textarea>
-					<button id="load-pgn">Load PGN</button>
-					<button id="rename-pgn">Rename PGN</button>
-					<button id="move-pgn">Move PGN</button>
-				</div>
-			</div>
+                <div id="board" class="chessboard"></div>
+                <div id="pgn-details" class="pgn-info">
+                    <h3>PGN Info</h3>
+                    <textarea id="pgn-content" rows="3" cols="100"></textarea>
+                    <button id="update-pgn">Update PGN</button>
+                    <!-- <button id="rename-pgn">Rename PGN</button> -->
+                    <!-- <button id="move-pgn">Move PGN</button> -->
+                </div>
+            </div>
         </div>
 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
-		<script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+        <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
         <script src="./js/memorize.js"></script>
     </body>
 </html>

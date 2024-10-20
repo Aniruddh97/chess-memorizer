@@ -265,3 +265,43 @@ h1 {
 .modal.is-open {
     display: flex;
 }
+
+
+/* Navbar styles */
+#navbar {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.navbar {
+    background-color: #333;
+    padding: 1em;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+.navbar ul li {
+    margin: 0;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5em 1em;
+    display: block;
+}
+
+.navbar ul li a:hover {
+    background-color: #555;
+}
+
+/* Page content styles */
+.content {
+    padding: 2em;
+}

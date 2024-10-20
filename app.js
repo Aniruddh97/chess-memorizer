@@ -1,9 +1,13 @@
 const express = require("express");
 const path = require("path");
 const api = require("./server/api");
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(cors());
+app.use(express.json());
 
 // Serve static assets (CSS, JS, images) from the 'public' folder
 app.use(express.static(path.join(__dirname, "public")));
