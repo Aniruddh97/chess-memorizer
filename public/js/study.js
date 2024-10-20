@@ -48,6 +48,7 @@ function startRevision() {
     }
 
     studyGame.load_pgn(pgn);
+	game = new Chess();
 
     pgnMoves = studyGame.history();
     userSide = getPlayerSide();
