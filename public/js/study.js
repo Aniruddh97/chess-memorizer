@@ -20,7 +20,7 @@ let gameStarted = false;
 
 let openingsData = {};
 
-fetch("http://chessmemorizer-nvvj2nz0.b4a.run/api/folder-structure")
+fetch("https://chessmemorizer-nvvj2nz0.b4a.run/api/folder-structure")
     .then((response) => response.json())
     .then((data) => (openingsData = data))
     .then(() => setup())
