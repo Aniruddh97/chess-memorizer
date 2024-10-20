@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const api = require("./server/api");
-const stockfish = require("./server/stockfish");
+const { stockfish } = require("./server/stockfish");
 const cors = require("cors");
 
 const app = express();

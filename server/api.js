@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const express = require("express");
+const { getBestLine } = require("./stockfish");
 const router = express.Router();
 
 const folderStructureFilePath = path.join(__dirname, "repertoire.json");
@@ -47,7 +48,7 @@ router.post("/folder", (req, res) => {
 });
 
 // Endpoint to add a PGN file to a folder
-router.post("/folder/:folderName/pgn", (req, res) => {
+router.post("/folder/:folderName/pgn", async (req, res) => {
     const { folderName } = req.params;
     const { pgnFileName, pgnContent } = req.body;
 
@@ -62,8 +63,16 @@ router.post("/folder/:folderName/pgn", (req, res) => {
         return res.status(404).json({ message: "Folder not found" });
     }
 
-    folderStructure[folderName][pgnFileName] = pgnContent;
-    saveFolderStructure(folderStructure);
+    getBestLine(pgnContent, 24)
+        .then((data) => {
+            folderStructure[folderName][pgnFileName] = data["bestLine"];
+            saveFolderStructure(folderStructure);
+        })
+        .catch(() => {
+            folderStructure[folderName][pgnFileName] = "1. h3 h5";
+            saveFolderStructure(folderStructure);
+        });
+
     res.status(201).json({
         message: `PGN "${pgnFileName}" added to folder "${folderName}"`,
     });
@@ -82,9 +91,16 @@ router.put("/folder/:folderName/pgn/:pgnFileName", (req, res) => {
         return res.status(404).json({ message: "Folder or PGN not found" });
     }
 
-    folderStructure[folderName][pgnFileName] = newPgn;
+    getBestLine(newPgn, 24)
+        .then((data) => {
+            folderStructure[folderName][pgnFileName] = data["bestLine"];
+            saveFolderStructure(folderStructure);
+        })
+        .catch(() => {
+            folderStructure[folderName][pgnFileName] = "1. h3 h5";
+            saveFolderStructure(folderStructure);
+        });
 
-    saveFolderStructure(folderStructure);
     res.status(200).json({
         message: `PGN "${pgnFileName}" updated`,
     });

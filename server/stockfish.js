@@ -76,6 +76,54 @@ async function getBestMoveViaAPI(fen, depth = 15) {
     }
 }
 
+async function getBestLine(pgn, depth = 24) {
+    const actualGame = new Chess();
+    actualGame.loadPgn(pgn);
+    let playerIndex = 0;
+
+    const headers = actualGame.header();
+    if (!headers["White"] || !headers["Black"]) {
+        return res.status(400).json({ error: "PGN isn't annotated" });
+    }
+
+    playerAlias.forEach((alias) => {
+        if (alias.toLowerCase() === headers["Black"].toLowerCase()) {
+            playerIndex = 1;
+        }
+    });
+
+    const bestLineGame = new Chess();
+    for (let header in headers) {
+        bestLineGame.header(header, headers[header]);
+    }
+    bestLineGame.header("PlayerIndex", `${playerIndex}`);
+
+    try {
+        let idx = 0;
+        for (let move of actualGame.history()) {
+            if (!(idx < 8) && idx % 2 == playerIndex) {
+                const bestMove = await getBestMove(bestLineGame.fen(), depth);
+                bestLineGame.move(bestMove);
+
+                const history = bestLineGame.history();
+                const lastMove = history[history.length - 1];
+                if (move !== lastMove) {
+                    break;
+                }
+
+                bestLineGame.undo();
+            }
+
+            bestLineGame.move(move);
+            idx++;
+        }
+
+        return { bestLine: bestLineGame.pgn() };
+    } catch (error) {
+        return { error: error.toString() };
+    }
+}
+
 // API to handle PGN input and return the best move
 router.post("/get-best-move", async (req, res) => {
     const { fen, depth = 15 } = req.body;
@@ -95,57 +143,23 @@ router.post("/get-best-move", async (req, res) => {
 const playerAlias = ["aniruddhpandya", "Jetpackinabackpack"];
 
 router.post("/get-best-line", async (req, res) => {
-    const { pgn } = req.body;
+    const { pgn, depth } = req.body;
 
     if (!pgn) {
         return res.status(400).json({ error: "PGN is required" });
     }
 
-    const actualGame = new Chess();
-    actualGame.loadPgn(pgn);
-    let playerIndex = 0;
+    const response = await getBestLine(pgn, depth);
 
-    const headers = actualGame.header();
-    if (!headers["White"] || !headers["Black"]) {
-        return res.status(400).json({ error: "PGN isn't annotated" });
+    if ("error" in response) {
+        res.status(500).json(response);
+        return;
     }
 
-    playerAlias.forEach((alias) => {
-        if (alias.toLowerCase() === headers["Black"].toLowerCase()) {
-            playerIndex = 1;
-        }
-    });
-
-    const bestLineGame = new Chess();
-	for (let header in headers) {
-		bestLineGame.header(header, headers[header]);
-	}
-    bestLineGame.header("playerIndex", `${playerIndex}`);
-
-    try {
-        let idx = 0;
-        for (let move of actualGame.history()) {
-            if (!(idx < 2) && idx % 2 == playerIndex) {
-                const bestMove = await getBestMove(bestLineGame.fen());
-                bestLineGame.move(bestMove);
-
-                const history = bestLineGame.history();
-                const lastMove = history[history.length - 1];
-                if (move !== lastMove) {
-                    break;
-                }
-
-                bestLineGame.undo();
-            }
-
-            bestLineGame.move(move);
-            idx++;
-        }
-
-        res.json({ bestLine: bestLineGame.pgn() });
-    } catch (error) {
-        res.status(500).json({ error: error.toString() });
-    }
+    res.json(response);
 });
 
-module.exports = router;
+module.exports = {
+    stockfish: router,
+    getBestLine,
+};

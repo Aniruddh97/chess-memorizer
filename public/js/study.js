@@ -52,6 +52,12 @@ function startRevision() {
     pgnMoves = studyGame.history();
     userSide = getPlayerSide();
 
+    const headers = studyGame.header();
+    if ("PlayerIndex" in headers) {
+        currentMoveIndex = parseInt(headers["PlayerIndex"], 10);
+        userSide = currentMoveIndex == 1 ? "black" : "white";
+    }
+
     boardConfig["orientation"] = userSide;
 
     gameStarted = true;
