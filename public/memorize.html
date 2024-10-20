@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Memorize PGNs</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/chessboardjs@0.0.1/www/css/chessboard.min.css"
+        />
+        <link rel="stylesheet" href="./css/memorize.css" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="sidebar">
+                <h2>Repertoires</h2>
+                <div class="actions">
+                    <button id="create-folder">Create Folder</button>
+                    <button id="add-pgn">Add PGN</button>
+                </div>
+                <div id="directory-structure" class="directory">
+                    <!-- Directory structure for PGNs -->
+                </div>
+            </div>
+
+            <div class="main-content">
+				<div id="board" class="chessboard"></div>
+				<div id="pgn-details" class="pgn-info">
+					<h3>PGN Info</h3>
+					<textarea id="pgn-content" rows="10" cols="50"></textarea>
+					<button id="load-pgn">Load PGN</button>
+					<button id="rename-pgn">Rename PGN</button>
+					<button id="move-pgn">Move PGN</button>
+				</div>
+			</div>
+        </div>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+		<script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+        <script src="./js/memorize.js"></script>
+    </body>
+</html>

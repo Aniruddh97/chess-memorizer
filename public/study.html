@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Minimalistic Chess Game</title>
+
+        <!-- Load chessboard.css -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/chessboardjs@0.0.1/www/css/chessboard.min.css"
+        />
+
+        <!-- Link to the external CSS file -->
+        <link rel="stylesheet" href="./css/study.css" />
+    </head>
+    <body>
+        <!-- Main container with the chessboard and sidebar -->
+        <button id="toggle-sidebar">Toggle Sidebar</button>
+
+        <div id="main-container">
+            <div id="controls">
+                <textarea
+                    id="pgn-input"
+                    placeholder="Paste PGN here..."
+                    rows="4"
+                ></textarea>
+                <select id="side-selection">
+                    <option value="white">Play as White</option>
+                    <option value="black">Play as Black</option>
+                </select>
+                <button id="start-game">Start Game</button>
+            </div>
+
+            <div id="board"></div>
+
+            <!-- Sidebar containing FEN, PGN, and move list -->
+            <div id="sidebar">
+                <div id="info">
+                    <div>
+                        <strong>FEN</strong>
+                        <div id="fen" class="copyable">Click to copy</div>
+                    </div>
+                    <div>
+                        <strong>PGN</strong>
+                        <div id="pgn" class="copyable">Click to copy</div>
+                    </div>
+                    <div id="moves">
+                        <strong>Move List</strong>
+                        <div id="move-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+		<div id="modal-1" aria-hidden="true" class="modal" data-micromodal-close>
+			<div tabindex="-1" class="modal__overlay" data-micromodal-close>
+				<div role="dialog" aria-modal="true" class="modal__container">
+					<header class="modal__header">
+						<h2 class="modal__title">Message</h2>
+						<button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+					</header>
+					<main class="modal__content" id="modal-1-content">
+						<p id="modal-error-message">Please paste a valid PGN.</p>
+					</main>
+					<footer class="modal__footer">
+						<button class="modal__btn" data-micromodal-close>OK</button>
+					</footer>
+				</div>
+			</div>
+		</div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+		<script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+        <script src="./js/study.js"></script>
+    </body>
+</html>

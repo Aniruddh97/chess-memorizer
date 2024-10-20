@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Minimalistic Chess Game</title>
+
+        <!-- Load chessboard.css -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/chessboardjs@0.0.1/www/css/chessboard.min.css"
+        />
+
+        <!-- Link to the external CSS file -->
+        <link rel="stylesheet" href="./css/index.css" />
+    </head>
+    <body>
+        <!-- Main container with the chessboard and sidebar -->
+        <button id="toggle-sidebar">Toggle Sidebar</button>
+
+        <div id="main-container">
+            <div id="board"></div>
+
+            <!-- Sidebar containing FEN, PGN, and move list -->
+            <div id="sidebar">
+                <div id="info">
+                    <div>
+                        <strong>FEN</strong>
+                        <div id="fen" class="copyable">Click to copy</div>
+                    </div>
+                    <div>
+                        <strong>PGN</strong>
+                        <div id="pgn" class="copyable">Click to copy</div>
+                    </div>
+                    <div id="moves">
+                        <strong>Move List</strong>
+                        <div id="move-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+        <script src="./js/index.js"></script>
+    </body>
+</html>
