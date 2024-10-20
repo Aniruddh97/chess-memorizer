@@ -117,8 +117,9 @@ router.post("/get-best-line", async (req, res) => {
     });
 
     const bestLineGame = new Chess();
-    bestLineGame.header("White", headers["White"]);
-    bestLineGame.header("Black", headers["Black"]);
+	for (let header in headers) {
+		bestLineGame.header(header, headers[header]);
+	}
     bestLineGame.header("playerIndex", `${playerIndex}`);
 
     try {
