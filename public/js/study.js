@@ -36,8 +36,8 @@ function setup() {
 }
 
 function startRevision() {
-    selectedOpening = document.getElementById("opening").value;
-    selectedLine = document.getElementById("opening-line").value;
+    let selectedOpening = document.getElementById("opening").value;
+    let selectedLine = document.getElementById("opening-line").value;
 
     const pgn = openingsData[selectedOpening][selectedLine];
     if (!pgn) {

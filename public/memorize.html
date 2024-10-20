@@ -28,16 +28,28 @@
                     <button id="create-folder">Create Folder</button>
                     <button id="add-pgn">Add PGN</button>
                 </div>
-                <div id="directory-structure" class="directory">
-                    <!-- Directory structure for PGNs -->
+                <div id="folders">
+					<div>
+						<label for="opening">Opening :</label>
+						<select name="opening" id="opening">
+							<!-- Options will be populated dynamically -->
+						</select>
+					</div>
+
+					<div>
+						<label for="opening-line">Line :</label>
+						<select name="opening-line" id="opening-line">
+							<!-- Options will be populated dynamically -->
+						</select>
+					</div>
+					<button id="load-pgn">Load PGN</button>
                 </div>
             </div>
 
             <div class="main-content">
                 <div id="board" class="chessboard"></div>
                 <div id="pgn-details" class="pgn-info">
-                    <h3>PGN Info</h3>
-                    <textarea id="pgn-content" rows="3" cols="100"></textarea>
+                    <textarea id="pgn-content" rows="8" cols="100"></textarea>
                     <button id="update-pgn">Update PGN</button>
                     <!-- <button id="rename-pgn">Rename PGN</button> -->
                     <!-- <button id="move-pgn">Move PGN</button> -->

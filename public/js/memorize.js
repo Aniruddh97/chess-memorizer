@@ -1,4 +1,4 @@
-let OpeningData = {};
+let openingsData = {};
 
 let activeOpening = "";
 let activeOpeningLine = "";
@@ -25,34 +25,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Render the directory structure
     function renderDirectory(folderStructure) {
-        OpeningData = folderStructure;
+        openingsData = folderStructure;
 
-        directoryStructure.innerHTML = ""; // Clear existing structure
+        populateOpenings();
+    }
 
-        Object.entries(folderStructure).forEach(([folder, pgns]) => {
-            const folderDiv = createFolderDiv(folder, pgns);
-            directoryStructure.appendChild(folderDiv);
+    document.getElementById("opening").addEventListener("change", (e) => {
+        const selectedOpening = e.target.value;
+        populatePgnLines(selectedOpening);
+    });
+
+    function populateOpenings() {
+        const openingSelect = document.getElementById("opening");
+
+        openingSelect.innerHTML = "";
+
+        Object.keys(openingsData).forEach((opening) => {
+            const option = document.createElement("option");
+            option.value = opening;
+            option.textContent = opening;
+            openingSelect.appendChild(option);
+        });
+
+        populatePgnLines(openingSelect.value);
+    }
+
+    function populatePgnLines(opening) {
+        const pgnSelect = document.getElementById("opening-line");
+
+        const lines = openingsData[opening];
+
+        pgnSelect.innerHTML = "";
+
+        Object.keys(lines).forEach((line) => {
+            const option = document.createElement("option");
+            option.value = line;
+            option.textContent = line;
+            pgnSelect.appendChild(option);
         });
     }
 
-    // Create folder div with PGNs
-    function createFolderDiv(folder, pgns) {
-        const folderDiv = document.createElement("div");
-        folderDiv.textContent = folder;
+    document.getElementById("load-pgn").addEventListener("click", (e) => {
+        let selectedOpening = document.getElementById("opening").value;
+        let selectedLine = document.getElementById("opening-line").value;
 
-        const pgnList = document.createElement("div");
-        pgnList.classList.add("pgn-list");
-
-        Object.keys(pgns).forEach((pgnFile) => {
-            const pgnDiv = document.createElement("div");
-            pgnDiv.textContent = pgnFile;
-            pgnDiv.addEventListener("click", () => loadPgn(folder, pgnFile));
-            pgnList.appendChild(pgnDiv);
-        });
-
-        folderDiv.appendChild(pgnList);
-        return folderDiv;
-    }
+        loadPgn(selectedOpening, selectedLine);
+    });
 
     // Load PGN into the chessboard
     function loadPgn(folder, pgnFile) {
@@ -62,9 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
         loadFolderStructure();
 
         const game = new Chess();
-        if (game.load_pgn(OpeningData[folder][pgnFile])) {
+        if (game.load_pgn(openingsData[folder][pgnFile])) {
             chessboard.position(game.fen());
-            pgnContentTextarea.value = OpeningData[folder][pgnFile];
+            pgnContentTextarea.value = openingsData[folder][pgnFile];
         } else {
             alert("Invalid PGN in file.");
         }
@@ -104,8 +122,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updatePgn() {
         if (
-            !OpeningData[activeOpening] ||
-            !OpeningData[activeOpening][activeOpeningLine]
+            !openingsData[activeOpening] ||
+            !openingsData[activeOpening][activeOpeningLine]
         ) {
             alert(`first select an opening & line!`);
             return;

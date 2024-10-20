@@ -53,16 +53,17 @@ body {
     background-color: #45a049;
 }
 
-.directory {
-    background-color: #444;
-    padding: 10px;
-    border-radius: 4px;
-    max-height: 400px;
-    overflow-y: auto;
+#folders {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.directory div {
-    margin-bottom: 8px;
+#folders > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+	padding: 5px 0px;
 }
 
 .main-content {
