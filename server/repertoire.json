@@ -1,12 +1,1 @@
-{
-    "Scotch": {
-        "exchange": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2024.10.20\"]\n[Round \"?\"]\n[White \"aniruddhpandya\"]\n[Black \"Ali-1332\"]\n[Result \"1-0\"]\n[TimeControl \"600\"]\n[WhiteElo \"1627\"]\n[BlackElo \"1602\"]\n[Termination \"aniruddhpandya won by resignation\"]\n[Link \"https://www.chess.com/game/live/123180089383\"]\n[PlayerIndex \"0\"]\n\n1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Nxd4 Nxd4 5. Qxd4 d6 6. Nc3 c6 7. Bf4 1-0",
-        "philidor": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2024.10.21\"]\n[Round \"?\"]\n[White \"aniruddhpandya\"]\n[Black \"KATOROY\"]\n[Result \"0-1\"]\n[TimeControl \"300\"]\n[WhiteElo \"1327\"]\n[BlackElo \"1358\"]\n[Termination \"KATOROY won by resignation\"]\n[Link \"https://www.chess.com/game/live/123230997529\"]\n[PlayerIndex \"0\"]\n\n1. e4 e5 2. Nf3 d6 3. d4 Bg4 4. dxe5 0-1"
-    },
-    "Mieses Opening": {
-        "reversed rat": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2024.10.21\"]\n[Round \"?\"]\n[White \"ekingde\"]\n[Black \"aniruddhpandya\"]\n[Result \"0-1\"]\n[TimeControl \"300\"]\n[WhiteElo \"1329\"]\n[BlackElo \"1342\"]\n[Termination \"aniruddhpandya won by resignation\"]\n[Link \"https://www.chess.com/game/live/123229208995\"]\n[PlayerIndex \"1\"]\n\n1. d3 e5 2. f3 d5 3. e4 dxe4 4. fxe4 Nf6 5. Nc3 Bc5 0-1"
-    },
-    "Caro Kann": {
-        "hillbilly attack": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2024.10.21\"]\n[Round \"?\"]\n[White \"11ANJchess\"]\n[Black \"aniruddhpandya\"]\n[Result \"1-0\"]\n[TimeControl \"300\"]\n[WhiteElo \"1387\"]\n[BlackElo \"1335\"]\n[Termination \"11ANJchess won on time\"]\n[Link \"https://www.chess.com/game/live/123229832709\"]\n[PlayerIndex \"1\"]\n\n1. e4 c6 2. Bc4 d5 3. exd5 cxd5 4. Bb3 Nc6 1-0"
-    }
-}
+{}
