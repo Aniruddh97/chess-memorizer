@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Upload Chess PGN</title>
+        <link rel="stylesheet" href="./css/upload-pgn.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1>Upload Chess PGN</h1>
+            <form id="pgnForm">
+                <textarea
+                    id="pgnInput"
+					rows="10"
+                    placeholder="Paste your PGN here"
+                    required
+                ></textarea>
+                <button type="submit">Upload PGN</button>
+            </form>
+            <p id="responseMessage"></p>
+        </div>
+
+        <script src="./js/upload-pgn.js"></script>
+    </body>
+</html>

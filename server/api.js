@@ -1,5 +1,7 @@
 const fs = require("fs");
 const path = require("path");
+const { Chess } = require("chess.js");
+const ECO_MAP = require("./eco-mapping.json");
 
 const express = require("express");
 const { getBestLine } = require("./stockfish");
@@ -10,7 +12,7 @@ const folderStructureFilePath = path.join(__dirname, "repertoire.json");
 // Helper function to read the folder structure from file
 function getFolderStructure() {
     const data = fs.readFileSync(folderStructureFilePath, "utf-8");
-    return JSON.parse(data);
+    return JSON.parse(data) || {};
 }
 
 // Helper function to write the folder structure to file
@@ -132,6 +134,51 @@ router.put("/folder/:folderName/pgn/:pgnFileName/move", (req, res) => {
     saveFolderStructure(folderStructure);
     res.status(200).json({
         message: `PGN "${pgnFileName}" moved to folder "${newFolderName}"`,
+    });
+});
+
+router.post("/pgn/upload", async (req, res) => {
+    const { pgn } = req.body;
+
+    if (!pgn) {
+        return res.status(400).json({ message: "PGN is required required" });
+    }
+
+    const game = new Chess();
+    game.loadPgn(pgn);
+
+    const eco = game.header()["ECO"];
+    if (!eco) {
+        return res.status(400).json({ message: "'ECO' annotation is missing" });
+    }
+
+    const opening = ECO_MAP[eco];
+    const folderStructure = getFolderStructure();
+
+    if (!opening) {
+        return res
+            .status(500)
+            .json({ message: `no mapping available for ECO: ${eco}` });
+    }
+
+    getBestLine(pgn, 24)
+        .then((data) => {
+            game.loadPgn(data["bestLine"]);
+            const line = game.history().join("");
+
+            folderStructure[opening] = {
+                ...folderStructure[opening],
+                [line]: data["bestLine"],
+            };
+            saveFolderStructure(folderStructure);
+        })
+        .catch((e) => {
+            console.error("failed to compute best line");
+            console.error(e);
+        });
+
+    res.status(201).json({
+        message: `PGN (${opening}) is being processed!`,
     });
 });
 
