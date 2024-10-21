@@ -77,8 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
         activeOpening = folder;
         activeOpeningLine = pgnFile;
 
-        loadFolderStructure();
-
         const game = new Chess();
         if (game.load_pgn(openingsData[folder][pgnFile])) {
             chessboard.position(game.fen());
@@ -115,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ pgnFileName, pgnContent }),
             })
-                .then(() => loadFolderStructure())
+                .then(() => alert("pgn added! please refresh"))
                 .catch((error) => console.error("Error adding PGN:", error));
         }
     });
@@ -139,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify({ newPgn: pgnContent }),
             }
         )
-            .then(() => loadFolderStructure())
+            .then(() => alert("pgn updated! please refresh"))
             .catch((error) => console.error("Error updating PGN:", error));
     }
 
