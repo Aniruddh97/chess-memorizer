@@ -14,7 +14,7 @@ async function getLatestRepertoireFromRedis() {
     const json = await redisGet("repertoire");
     console.log(`redis data : ${json}`);
     if (json) {
-        saveFolderStructure(json);
+        saveFolderStructure(JSON.parse(data) || {});
     }
 }
 
