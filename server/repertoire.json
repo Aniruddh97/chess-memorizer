@@ -1,12 +1,1 @@
-{
-  "Mieses Opening": {
-    "reversed rat": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2024.10.21\"]\n[Round \"?\"]\n[White \"ekingde\"]\n[Black \"aniruddhpandya\"]\n[Result \"0-1\"]\n[TimeControl \"300\"]\n[WhiteElo \"1329\"]\n[BlackElo \"1342\"]\n[Termination \"aniruddhpandya won by resignation\"]\n[Link \"https://www.chess.com/game/live/123229208995\"]\n[PlayerIndex \"1\"]\n\n1. d3 e5 2. f3 d5 3. e4 dxe4 4. fxe4 Nf6 5. Nc3 Bc5 0-1"
-  },
-  "Caro Kann": {
-    "hillbilly attack": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2024.10.21\"]\n[Round \"?\"]\n[White \"11ANJchess\"]\n[Black \"aniruddhpandya\"]\n[Result \"1-0\"]\n[TimeControl \"300\"]\n[WhiteElo \"1387\"]\n[BlackElo \"1335\"]\n[Termination \"11ANJchess won on time\"]\n[Link \"https://www.chess.com/game/live/123229832709\"]\n[PlayerIndex \"1\"]\n\n1. e4 c6 2. Bc4 d5 3. exd5 cxd5 4. Bb3 Nc6 1-0",
-    "advanced bcd": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2024.10.21\"]\n[Round \"?\"]\n[White \"ccccccqqq\"]\n[Black \"aniruddhpandya\"]\n[Result \"1-0\"]\n[TimeControl \"300\"]\n[WhiteElo \"1357\"]\n[BlackElo \"1313\"]\n[Termination \"ccccccqqq won on time\"]\n[Link \"https://www.chess.com/game/live/123233438731\"]\n[PlayerIndex \"1\"]\n\n1. e4 c6 2. d4 d5 3. e5 c5 4. f4 cxd4 5. Qxd4 Bf5 1-0"
-  },
-  "White Sicilian Defense": {
-    "open sicilian": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2024.10.21\"]\n[Round \"?\"]\n[White \"aniruddhpandya\"]\n[Black \"smw3203\"]\n[Result \"0-1\"]\n[TimeControl \"300\"]\n[WhiteElo \"1320\"]\n[BlackElo \"1375\"]\n[Termination \"smw3203 won by checkmate\"]\n[Link \"https://www.chess.com/game/live/123232824795\"]\n[PlayerIndex \"0\"]\n\n1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Nxc6 0-1"
-  }
-}
+{}

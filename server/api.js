@@ -5,9 +5,17 @@ const ECO_MAP = require("./eco-mapping.json");
 
 const express = require("express");
 const { getBestLine } = require("./stockfish");
+const { redisSet, redisGet } = require("./redis");
 const router = express.Router();
 
 const folderStructureFilePath = path.join(__dirname, "repertoire.json");
+
+async function getLatestRepertoireFromRedis() {
+    const json = await redisGet("repertoire");
+    if (json) {
+        saveFolderStructure(json);
+    }
+}
 
 // Helper function to read the folder structure from file
 function getFolderStructure() {
@@ -22,6 +30,7 @@ function saveFolderStructure(folderStructure) {
         JSON.stringify(folderStructure, null, 2),
         "utf-8"
     );
+    redisSet("repertoire", JSON.stringify(folderStructure));
 }
 
 // Endpoint to get the folder structure
@@ -196,4 +205,7 @@ router.post("/pgn/upload", async (req, res) => {
     });
 });
 
-module.exports = router;
+module.exports = {
+    api: router,
+    getLatestRepertoireFromRedis,
+};
