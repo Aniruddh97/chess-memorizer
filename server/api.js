@@ -30,6 +30,20 @@ router.get("/folder-structure", (req, res) => {
     res.json(folderStructure);
 });
 
+router.put("/folder-structure", async (req, res) => {
+    const { json } = req.body;
+
+    if (!json) {
+        return res.status(400).json({ message: "no json provided to update" });
+    }
+
+    saveFolderStructure(json);
+
+    res.status(201).json({
+        message: `updated!`,
+    });
+});
+
 // Endpoint to add a folder
 router.post("/folder", (req, res) => {
     const { folderName } = req.body;
