@@ -12,6 +12,7 @@ const folderStructureFilePath = path.join(__dirname, "repertoire.json");
 
 async function getLatestRepertoireFromRedis() {
     const json = await redisGet("repertoire");
+    console.log(`redis data : ${json}`);
     if (json) {
         saveFolderStructure(json);
     }
