@@ -1,12 +1,16 @@
+/* Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap");
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Poppins", sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
     margin: 0;
-    padding: 0;
+    padding: 20px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
+    justify-content: flex-start;
 }
 
 .container {
@@ -45,4 +49,37 @@ button:hover {
 #responseMessage {
     margin-top: 20px;
     color: #333;
+}
+
+#navbar {
+    width: 100%;
+	margin-bottom: 20px;
+}
+
+.navbar {
+    background-color: #333;
+    padding: 1em;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+.navbar ul li {
+    margin: 0;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5em 1em;
+    display: block;
+}
+
+.navbar ul li a:hover {
+    background-color: #555;
 }
