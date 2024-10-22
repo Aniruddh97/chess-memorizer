@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Fetch the folder structure from the server
     function loadFolderStructure() {
-        fetch("https://chessmemorizer1-6a4ddn5z.b4a.run/api/folder-structure")
+        fetch("https://chess-memorizer-production.up.railway.app/api/folder-structure")
             .then((response) => response.json())
             .then(renderDirectory)
             .catch((error) =>
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("create-folder").addEventListener("click", () => {
         const folderName = prompt("Enter folder name:");
         if (folderName) {
-            fetch("https://chessmemorizer1-6a4ddn5z.b4a.run/api/folder", {
+            fetch("https://chess-memorizer-production.up.railway.app/api/folder", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ folderName }),
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const pgnContent = pgnContentTextarea.value;
 
         if (pgnFileName && selectedFolder && pgnContent) {
-            fetch(`https://chessmemorizer1-6a4ddn5z.b4a.run/api/folder/${selectedFolder}/pgn`, {
+            fetch(`https://chess-memorizer-production.up.railway.app/api/folder/${selectedFolder}/pgn`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ pgnFileName, pgnContent }),
@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const pgnContent = pgnContentTextarea.value;
 
         fetch(
-            `https://chessmemorizer1-6a4ddn5z.b4a.run/api/folder/${activeOpening}/pgn/${activeOpeningLine}`,
+            `https://chess-memorizer-production.up.railway.app/api/folder/${activeOpening}/pgn/${activeOpeningLine}`,
             {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },

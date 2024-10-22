@@ -9,7 +9,7 @@ document.getElementById("pgnForm").addEventListener("submit", function (event) {
         return;
     }
 
-    fetch("https://chessmemorizer1-6a4ddn5z.b4a.run/api/pgn/upload", {
+    fetch("https://chess-memorizer-production.up.railway.app/api/pgn/upload", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

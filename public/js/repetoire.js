@@ -6,7 +6,7 @@ const editor = new JSONEditor(container, options);
 let initialJson = {};
 
 function loadFolderStructure() {
-    fetch("https://chessmemorizer1-6a4ddn5z.b4a.run/api/folder-structure")
+    fetch("https://chess-memorizer-production.up.railway.app/api/folder-structure")
         .then((response) => response.json())
         .then((data) => {
             initialJson = data;
@@ -23,7 +23,7 @@ document.getElementById("saveBtn").addEventListener("click", function () {
     const updatedJson = editor.get(); // Get updated JSON from the editor
 
     // Send POST request to save the updated JSON
-    fetch("https://chessmemorizer1-6a4ddn5z.b4a.run/api/folder-structure", {
+    fetch("https://chess-memorizer-production.up.railway.app/api/folder-structure", {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
