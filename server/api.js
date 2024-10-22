@@ -12,9 +12,8 @@ const folderStructureFilePath = path.join(__dirname, "repertoire.json");
 
 async function getLatestRepertoireFromRedis() {
     const json = await redisGet("repertoire");
-    console.log(`redis data : ${json}`);
     if (json) {
-        saveFolderStructure(JSON.parse(data) || {});
+        saveFolderStructure(JSON.parse(json) || {});
     }
 }
 
@@ -25,13 +24,13 @@ function getFolderStructure() {
 }
 
 // Helper function to write the folder structure to file
-function saveFolderStructure(folderStructure) {
+function saveFolderStructure(json) {
     fs.writeFileSync(
         folderStructureFilePath,
-        JSON.stringify(folderStructure, null, 2),
+        JSON.stringify(json, null, 2),
         "utf-8"
     );
-    redisSet("repertoire", JSON.stringify(folderStructure));
+    redisSet("repertoire", JSON.stringify(json));
 }
 
 // Endpoint to get the folder structure
