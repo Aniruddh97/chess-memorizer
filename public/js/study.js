@@ -48,7 +48,7 @@ function startRevision() {
     }
 
     studyGame.load_pgn(pgn);
-	game = new Chess();
+    game = new Chess();
 
     pgnMoves = studyGame.history();
     userSide = getPlayerSide();
@@ -73,6 +73,22 @@ function startRevision() {
     }
 
     updateStatus();
+}
+
+function randomRevision() {
+    const openings = Object.keys(openingsData);
+    const openingIndex = Math.floor(Math.random() * openings.length);
+    const opening = openings[openingIndex];
+
+    const lines = Object.keys(openingsData[opening]);
+    const line = lines[Math.floor(Math.random() * lines.length)];
+
+    document.getElementById("opening").value = opening;
+	populatePgnLines(opening);
+
+    document.getElementById("opening-line").value = line;
+
+    startRevision();
 }
 
 function getPlayerSide() {
@@ -176,6 +192,7 @@ document.querySelectorAll(".copyable").forEach((item) => {
 });
 
 document.getElementById("revise").addEventListener("click", startRevision);
+document.getElementById("random").addEventListener("click", randomRevision);
 
 /**
  * OPENINGS & LINES

@@ -21,6 +21,10 @@ h1 {
     text-align: center;
 }
 
+select {
+	max-width: 260px;
+}
+
 #board {
     width: 100%;
     /* max-width: 320px; */
@@ -266,11 +270,10 @@ h1 {
     display: flex;
 }
 
-
 /* Navbar styles */
 #navbar {
-	width: 100%;
-	margin-bottom: 10px;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 .navbar {
