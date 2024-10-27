@@ -44,7 +44,6 @@ async function getBestMoveViaEngine(fen, depth = 24) {
                                     engine.send(
                                         `go depth ${depth}`,
                                         function onDone(data) {
-                                            console.log(ouputStream);
                                             const top3Moves = [];
                                             for (let line of ouputStream) {
                                                 if (line.includes("multipv")) {
@@ -55,6 +54,7 @@ async function getBestMoveViaEngine(fen, depth = 24) {
                                                     );
                                                 }
                                             }
+											console.log(top3Moves)
                                             resolve(top3Moves);
                                         },
                                         function onStream(data) {
