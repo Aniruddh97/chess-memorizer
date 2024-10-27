@@ -15,13 +15,22 @@ const engine = loadEngine(
     )
 );
 
-async function getBestMove(fen, depth) {
+function normalizeMove(move, game) {
+    game.move(move);
+    const history = game.history();
+    game.undo();
+
+    return history[history.length - 1];
+}
+
+async function getTop3Moves(fen, depth) {
     return getBestMoveViaEngine(fen, 24);
     // return getBestMoveViaAPI(fen, 15);
 }
 
 async function getBestMoveViaEngine(fen, depth = 24) {
     return new Promise(async (resolve, reject) => {
+        const ouputStream = [];
         try {
             engine.send(
                 `uci`,
@@ -30,9 +39,31 @@ async function getBestMoveViaEngine(fen, depth = 24) {
                         `position fen ${fen}`,
                         function onDone(data) {
                             engine.send(
-                                `go depth ${depth}`,
+                                `setoption name MultiPV value 3`,
                                 function onDone(data) {
-                                    resolve(data);
+                                    engine.send(
+                                        `go depth ${depth}`,
+                                        function onDone(data) {
+                                            console.log(ouputStream);
+                                            const top3Moves = [];
+                                            for (let line of ouputStream) {
+                                                if (line.includes("multipv")) {
+                                                    top3Moves.push(
+                                                        line
+                                                            .split(/\spv\s/)[1]
+                                                            .split(/\s/)[0]
+                                                    );
+                                                }
+                                            }
+                                            resolve(top3Moves);
+                                        },
+                                        function onStream(data) {
+                                            ouputStream.push(data);
+                                            if (ouputStream.length > 4) {
+                                                ouputStream.shift();
+                                            }
+                                        }
+                                    );
                                 },
                                 function onStream(data) {}
                             );
@@ -102,16 +133,16 @@ async function getBestLine(pgn, depth = 24) {
         let idx = 0;
         for (let move of actualGame.history()) {
             if (!(idx <= 6) && idx % 2 == playerIndex) {
-                const bestMove = await getBestMove(bestLineGame.fen(), depth);
-                bestLineGame.move(bestMove);
+                let best3Moves = await getTop3Moves(bestLineGame.fen(), depth);
 
-                const history = bestLineGame.history();
-                const lastMove = history[history.length - 1];
-                if (move !== lastMove) {
+                best3Moves = best3Moves.map((move) =>
+                    normalizeMove(move, bestLineGame)
+                );
+
+                if (!(best3Moves.includes(move))) {
+					bestLineGame.move(best3Moves[0])
                     break;
                 }
-
-                bestLineGame.undo();
             }
 
             bestLineGame.move(move);
@@ -125,7 +156,7 @@ async function getBestLine(pgn, depth = 24) {
 }
 
 // API to handle PGN input and return the best move
-router.post("/get-best-move", async (req, res) => {
+router.post("/get-best-moves", async (req, res) => {
     const { fen, depth = 15 } = req.body;
 
     if (!fen) {
@@ -133,8 +164,8 @@ router.post("/get-best-move", async (req, res) => {
     }
 
     try {
-        const bestMove = await getBestMove(fen, depth);
-        res.json({ bestMove });
+        const top3Moves = await getTop3Moves(fen, depth);
+        res.json({ top3Moves });
     } catch (error) {
         res.status(500).json({ error: error.toString() });
     }
