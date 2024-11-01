@@ -84,7 +84,7 @@ function randomRevision() {
     const line = lines[Math.floor(Math.random() * lines.length)];
 
     document.getElementById("opening").value = opening;
-	populatePgnLines(opening);
+    populatePgnLines(opening);
 
     document.getElementById("opening-line").value = line;
 
@@ -166,11 +166,11 @@ function onSnapEnd() {
 }
 
 function updateStatus() {
-    const status = document.getElementById("status");
-    const gameStatus = game.game_over()
-        ? "Game over"
-        : `Current turn: ${userSide}`;
-    status.innerHTML = gameStatus;
+    // const status = document.getElementById("status");
+    // const gameStatus = game.game_over()
+    //     ? "Game over"
+    //     : `Current turn: ${userSide}`;
+    // status.innerHTML = gameStatus;
 
     // Update FEN and PGN displays
     document.getElementById("fen").innerText = game.fen();
