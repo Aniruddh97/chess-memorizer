@@ -28,7 +28,7 @@ async function getTop3Moves(fen, depth) {
     // return getBestMoveViaAPI(fen, 15);
 }
 
-async function getBestMoveViaEngine(fen, depth = 24) {
+async function getTop3MoveViaEngine(fen, depth = 24) {
     const outputStream = [];
 
     function sendCommand(command) {
@@ -50,6 +50,29 @@ async function getBestMoveViaEngine(fen, depth = 24) {
 
         console.log(top3Moves);
         return top3Moves;
+    } catch (e) {
+        throw new Error(`Engine error: ${e}`);
+    }
+}
+
+async function getBestMoveViaEngine(fen, depth = 24) {
+    const outputStream = [];
+
+    function sendCommand(command) {
+        return new Promise((resolve, reject) => {
+            engine.send(command, resolve, (data) => outputStream.push(data));
+        });
+    }
+
+    try {
+        await sendCommand("uci");
+        await sendCommand(`position fen ${fen}`);
+        let topMove = await sendCommand(`go depth ${depth}`);
+
+        topMove = topMove.split(/\s/)[1];
+
+        console.log(topMove);
+        return [topMove];
     } catch (e) {
         throw new Error(`Engine error: ${e}`);
     }
