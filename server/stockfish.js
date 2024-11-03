@@ -113,7 +113,7 @@ async function getBestLine(pgn, depth = 24) {
 
     const headers = actualGame.header();
     if (!headers["White"] || !headers["Black"]) {
-        return res.status(400).json({ error: "PGN isn't annotated" });
+        return { error: "PGN isn't annotated" };
     }
 
     playerAlias.forEach((alias) => {
