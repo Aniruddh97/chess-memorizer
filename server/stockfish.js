@@ -29,54 +29,30 @@ async function getTop3Moves(fen, depth) {
 }
 
 async function getBestMoveViaEngine(fen, depth = 24) {
-    return new Promise(async (resolve, reject) => {
-        const ouputStream = [];
-        try {
-            engine.send(
-                `uci`,
-                function onDone(data) {
-                    engine.send(
-                        `position fen ${fen}`,
-                        function onDone(data) {
-                            engine.send(
-                                `setoption name MultiPV value 3`,
-                                function onDone(data) {
-                                    engine.send(
-                                        `go depth ${depth}`,
-                                        function onDone(data) {
-                                            const top3Moves = [];
-                                            for (let line of ouputStream) {
-                                                if (line.includes("multipv")) {
-                                                    top3Moves.push(
-                                                        line
-                                                            .split(/\spv\s/)[1]
-                                                            .split(/\s/)[0]
-                                                    );
-                                                }
-                                            }
-											console.log(top3Moves)
-                                            resolve(top3Moves);
-                                        },
-                                        function onStream(data) {
-                                            ouputStream.push(data);
-                                            if (ouputStream.length > 4) {
-                                                ouputStream.shift();
-                                            }
-                                        }
-                                    );
-                                },
-                                function onStream(data) {}
-                            );
-                        },
-                        function onStream(data) {}
-                    );
-                },
-                function onStream(data) {}
-            );
-        } catch (e) {
-            reject(e);
-        }
-    });
+    const outputStream = [];
+
+    function sendCommand(command) {
+        return new Promise((resolve, reject) => {
+            engine.send(command, resolve, (data) => outputStream.push(data));
+        });
+    }
+
+    try {
+        await sendCommand("uci");
+        await sendCommand(`position fen ${fen}`);
+        await sendCommand("setoption name MultiPV value 3");
+        await sendCommand(`go depth ${depth}`);
+
+        const top3Moves = outputStream
+            .filter((line) => line.includes("multipv"))
+            .slice(-3)
+            .map((line) => line.split(/\spv\s/)[1].split(/\s/)[0]);
+
+        console.log(top3Moves);
+        return top3Moves;
+    } catch (e) {
+        throw new Error(`Engine error: ${e}`);
+    }
 }
 
 // Function to interact with Stockfish and get the best move
@@ -132,15 +108,15 @@ async function getBestLine(pgn, depth = 24) {
     try {
         let idx = 0;
         for (let move of actualGame.history()) {
-            if (!(idx <= 6) && idx % 2 == playerIndex) {
+            if (idx % 2 == playerIndex) {
                 let best3Moves = await getTop3Moves(bestLineGame.fen(), depth);
 
                 best3Moves = best3Moves.map((move) =>
                     normalizeMove(move, bestLineGame)
                 );
 
-                if (!(best3Moves.includes(move))) {
-					bestLineGame.move(best3Moves[0])
+                if (!best3Moves.includes(move)) {
+                    bestLineGame.move(best3Moves[0]);
                     break;
                 }
             }
