@@ -131,7 +131,7 @@ async function getBestLine(pgn, depth = 24) {
     try {
         let idx = 0;
         for (let move of actualGame.history()) {
-            if (idx % 2 == playerIndex) {
+            if (idx > 1 && idx % 2 == playerIndex) {
                 let best3Moves = await getTop3Moves(bestLineGame.fen(), depth);
 
                 best3Moves = best3Moves.map((move) =>
