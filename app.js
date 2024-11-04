@@ -4,6 +4,7 @@ const { getLatestRepertoireFromRedis, api } = require("./server/api");
 const { stockfish } = require("./server/stockfish");
 const cors = require("cors");
 const { initRedis, redisGet } = require("./server/redis");
+const { pullAndStudyChessDotComGames } = require("./server/chesscom");
 
 initRedis();
 
@@ -25,6 +26,8 @@ app.get("/:file", (req, res) => {
 
 app.use("/api", api);
 app.use("/stockfish", stockfish);
+
+setInterval(pullAndStudyChessDotComGames, 300 * 1000);
 
 // Start the server
 app.listen(PORT, () => {
