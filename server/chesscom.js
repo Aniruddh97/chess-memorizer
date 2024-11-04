@@ -18,7 +18,7 @@ const pullAndStudyChessDotComGames = async (filter) => {
 
     const filteredGames = games.filter((game) => game.time_control == "600");
 
-    for (let game of filteredGames.slice(-1)) {
+    for (let game of filteredGames.slice(-10)) {
         if (processedGames[game.url]) continue;
 
         processedGames[game.url] = true;
