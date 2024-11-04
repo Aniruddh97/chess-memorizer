@@ -184,7 +184,7 @@ router.post("/pgn/upload", async (req, res) => {
             .json({ message: `no mapping available for ECO: ${eco}` });
     }
 
-    getBestLine(pgn, 24)
+    getBestLine(pgn, 26)
         .then((data) => {
             game.loadPgn(data["bestLine"]);
             const line = game.history().join("");
