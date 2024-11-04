@@ -23,8 +23,8 @@ function normalizeMove(move, game) {
     return history[history.length - 1];
 }
 
-async function getTop3Moves(fen, depth) {
-    return getBestMoveViaEngine(fen, 24);
+async function getTop3Moves(fen, depth = 24) {
+    return getTop3MoveViaEngine(fen, depth);
     // return getBestMoveViaAPI(fen, 15);
 }
 
